@@ -5,9 +5,9 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/JaynewDee/gogoswerver"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/gogoswerver"
 	"github.com/google/uuid"
 )
 
@@ -36,30 +36,12 @@ func NewHandler(store gogoswerver.Store) *Handler {
 	return h
 }
 
-const threadsListHTML = `
-<h1 style="text-align:center;">Threads</h1>
-<dl>
-{{range .Threads}}
-	<dt>
-		<strong>{{.Title}}<strong>
-	</dt>
-	<dd>{{.Description}}<dd>
-	<dd>
-		<form action="/threads/{{.ID}}/delete" method="POST">
-			<button type="submit">DELETE</button>
-		</form>
-	</dd>
-{{end}}
-</dl>
-<a href="/threads/new">Create thread</a>
-`
-
 func (h *Handler) ThreadsList() http.HandlerFunc {
 	// Space above returned handler func can be used for handler initialization as it is only run once!
 	type data struct {
 		Threads []gogoswerver.Thread
 	}
-	temp := template.Must(template.New("List Threads").Parse(threadsListHTML))
+	temp := template.Must(ThreadsListTemplate())
 	//
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -73,36 +55,8 @@ func (h *Handler) ThreadsList() http.HandlerFunc {
 	}
 }
 
-const threadCreateHTML = `
-<style>
-	div {
-		text-align: center;
-	}
-	textarea {
-		width: 66vw
-	}
-</style>
-
-<div>
-<h2>Create New Thread</h2>
-<form action="/threads" method="POST">
-	<table>
-		<tr>
-			<td>Title</td>
-			<td><input type="text" name="title" /></td>
-		</tr>
-		<tr>
-			<td>Description</td>
-			<td><textarea name="description"></textarea></td>
-		</tr>
-	</table>
-	<button type="submit">Create!</button>
-</form>
-</div>
-`
-
 func (h *Handler) ThreadsCreate() http.HandlerFunc {
-	temp := template.Must(template.New("Create Thread").Parse(threadCreateHTML))
+	temp := template.Must(ThreadCreateTemplate())
 
 	fmt.Print("bruh ...")
 

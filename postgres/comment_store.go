@@ -3,7 +3,7 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/gogoswerver"
+	"github.com/JaynewDee/gogoswerver"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )

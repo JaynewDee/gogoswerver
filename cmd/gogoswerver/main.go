@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gogoswerver/postgres"
-	"github.com/gogoswerver/web"
+	"github.com/JaynewDee/gogoswerver/postgres"
+	"github.com/JaynewDee/gogoswerver/web"
 )
 
 const uri string = "postgres://postgres:secret@localhost:5432/postgres?sslmode=disable"
