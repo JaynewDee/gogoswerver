@@ -1,11 +1,10 @@
 package web
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 
-	"github.com/JaynewDee/gogoswerver"
+	"github.com/JaynewDee/gogoswerver/entity"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/google/uuid"
@@ -14,10 +13,10 @@ import (
 type Handler struct {
 	*chi.Mux
 
-	store gogoswerver.Store
+	store entity.Store
 }
 
-func NewHandler(store gogoswerver.Store) *Handler {
+func NewHandler(store entity.Store) *Handler {
 	h := &Handler{
 		Mux:   chi.NewMux(),
 		store: store,
@@ -37,14 +36,13 @@ func NewHandler(store gogoswerver.Store) *Handler {
 }
 
 func (h *Handler) ThreadsList() http.HandlerFunc {
-	// Space above returned handler func can be used for handler initialization as it is only run once!
 	type data struct {
-		Threads []gogoswerver.Thread
+		Threads []entity.Thread
 	}
-	temp := template.Must(ThreadsListTemplate())
-	//
 
-	return func(w http.ResponseWriter, r *http.Request) {
+	temp := template.Must(ThreadsListTemplate())
+
+	return func(w http.ResponseWriter, _ *http.Request) {
 		ts, err := h.store.Threads()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -58,9 +56,7 @@ func (h *Handler) ThreadsList() http.HandlerFunc {
 func (h *Handler) ThreadsCreate() http.HandlerFunc {
 	temp := template.Must(ThreadCreateTemplate())
 
-	fmt.Print("bruh ...")
-
-	return func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, _ *http.Request) {
 		temp.Execute(w, nil)
 	}
 }
@@ -70,7 +66,7 @@ func (h *Handler) ThreadsStore() http.HandlerFunc {
 		title := r.FormValue("title")
 		description := r.FormValue("description")
 
-		if err := h.store.CreateThread(&gogoswerver.Thread{
+		if err := h.store.CreateThread(&entity.Thread{
 			ID:          uuid.New(),
 			Title:       title,
 			Description: description,
