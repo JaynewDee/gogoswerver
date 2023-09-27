@@ -35,6 +35,7 @@ func NewHandler(store entity.Store) *Handler {
 	return h
 }
 
+// Threads Handlers
 func (h *Handler) ThreadsList() http.HandlerFunc {
 	type data struct {
 		Threads []entity.Thread
@@ -78,7 +79,6 @@ func (h *Handler) ThreadsStore() http.HandlerFunc {
 		http.Redirect(w, r, "/threads", http.StatusFound)
 	}
 }
-
 func (h *Handler) ThreadsDelete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		idStr := chi.URLParam(r, "id")
