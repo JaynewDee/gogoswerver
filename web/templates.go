@@ -3,6 +3,12 @@ package web
 import "html/template"
 
 const threadsListHTML string = `
+<style>
+	body {
+		background-color: black;
+		color: white;
+	}
+</style>
 <h1 style="text-align:center;">Threads</h1>
 <dl>
 {{range .Threads}}
@@ -47,20 +53,20 @@ const threadCreateHTML string = `
 </style>
 
 <div class="container">
-<h2>Create New Thread</h2>
-<form action="/threads" method="POST">
-	<table>
-		<tr>
-			<td>Title</td>
-			<td><input type="text" name="title" /></td>
-		</tr>
-	</table>
-	<div class="description">
-		<label>Description</label>
-		<textarea name="description"></textarea>
-	</div>
-	<button type="submit">Create!</button>
-</form>
+	<h2>Create New Thread</h2>
+	<form action="/threads" method="POST">
+		<table>
+			<tr>
+				<td>Title</td>
+				<td><input type="text" name="title" /></td>
+			</tr>
+		</table>
+		<div class="description">
+			<label>Description</label>
+			<textarea name="description"></textarea>
+		</div>
+		<button type="submit">Create!</button>
+	</form>
 </div>
 `
 

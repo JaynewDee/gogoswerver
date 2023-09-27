@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,20 +12,31 @@ import (
 
 const uri string = "postgres://postgres:secret@localhost:5432/postgres?sslmode=disable"
 
+// 1. Establish postgres connection
+// 2. Pass db store at server creation
+// 3. Listen and serve
 func main() {
 
-	// establish db connection and init store
+	port := flag.String("port", ":3001", "server port")
+	flag.Parse()
+
 	store, err := postgres.NewStore(uri)
 
 	if err != nil {
 		log.Fatal(err)
+	} else {
+		fmt.Println("Database connection established.")
 	}
 
 	server := &http.Server{
-		Addr:    ":3001",
+		Addr:    *port,
 		Handler: web.NewHandler(store),
 	}
 
-	fmt.Println("Server listening @ 3001 ... ")
-	server.ListenAndServe()
+	fmt.Printf("Starting server @ %v\n", *port)
+
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal("encountered error @ server start: %w", err)
+	}
+
 }
