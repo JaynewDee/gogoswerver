@@ -1,4 +1,4 @@
-module github.com/JaynewDee/gogoswerver
+module github.com/jaynewdee/gogoswerver
 
 go 1.21.1
 
@@ -10,5 +10,3 @@ require (
 require github.com/lib/pq v1.10.9
 
 require github.com/go-chi/chi v1.5.5
-
-replace github.com/JaynewDee/gogoswerver => ../ 
