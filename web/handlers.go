@@ -4,10 +4,10 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/JaynewDee/gogoswerver/entity"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/google/uuid"
+	"github.com/jaynewdee/gogoswerver/entity"
 )
 
 type Handler struct {
